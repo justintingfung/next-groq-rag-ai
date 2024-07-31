@@ -21,13 +21,13 @@ export const createResource = async (input: NewResourceParams) => {
 
     const embeddings = await generateEmbeddings(contentWithoutLineBreaks);
     console.log('embeddings', embeddings)
-    await db.insert(embeddingsTable).values(
+    const embeddingInsertResult = await db.insert(embeddingsTable).values(
       embeddings.map(embedding => ({
         resourceId: resource.id,
         ...embedding,
       })),
     );
-
+    console.log('embeddings DONE!!!', embeddingInsertResult)
       return 'Resource successfully created and embedded.';
   } catch (e) {
     if (e instanceof Error)
